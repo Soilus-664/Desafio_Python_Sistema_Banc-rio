@@ -16,12 +16,16 @@ def menu_extrato():
         print(f"""
 ====================
 Nada Efetuado
+              
+Saldo: {saldo}
 ====================
 """)
     else:
         print(f"""
 ====================\n
 {extrato}
+
+Saldo: {saldo}
 ====================
 """)
     
