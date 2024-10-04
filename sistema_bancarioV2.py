@@ -10,9 +10,7 @@ TRANSACOES_DIARIAS = 10
 SAQUE_DIARIO = 3
 extrato = ""
 
-data_atual = datetime.now(pytz.timezone("America/Sao_Paulo"))
-mascara_ptbr = "%d/%m/%Y %H:%M"
-
+mascara_ptbr = "%d/%m/%Y %H:%M:%S"
 
 menu = """
     [D] Deposito
@@ -41,7 +39,6 @@ def menu_extrato():
         print(f"{extrato}\nSaldo: {saldo:.2f}")
         final_extrato_menu()
 
-
 def deposito():
     global saldo, extrato, exibir_extrato, transacoes
     deposito = float(input("insira o Valor do Deposito: "))
@@ -49,7 +46,7 @@ def deposito():
     if deposito > 0 and limite_de_transacoes() == False:
         saldo += deposito
         print(f"Deposito de {deposito:.2f} efetuado com sucesso!")
-        extrato += f"Depósito: R${deposito:.2f}     Data: {data_atual.strftime(mascara_ptbr)}\n"
+        extrato += f"Depósito: R${deposito:.2f}     Data: {datetime.now(pytz.timezone("America/Sao_Paulo")).strftime(mascara_ptbr)}\n"
         transacoes += 1
     elif limite_de_transacoes() == True:
         print("Voce excedeu o limite de Transaçôes Diarias")
@@ -70,7 +67,7 @@ def saque():
             saldo -= saque
             print(f"Seu Saque de {saque:.2f} foi realizado com sucesso!")
             saques += 1
-            extrato += f"Saque: R${saque:.2f}\n"
+            extrato += f"Saque: R${saque:.2f}     Data: {datetime.now(pytz.timezone("America/Sao_Paulo")).strftime(mascara_ptbr)}\n"
             transacoes += 1
         elif saque > saldo:
             print(f"Seu Saque de {saque:.2f} é maior que o seu Saldo {saldo:.2f}")
