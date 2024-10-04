@@ -24,55 +24,46 @@ def limite_de_transacoes():
     return transacoes == TRANSACOES_DIARIAS
 
 def menu_extrato():
-    
     def comeco_extrato_menu() :
         print(" Extrato ".center(50, "="))
     def final_extrato_menu():
         print("".center(50, "="))
-    
-    if extrato == "":
-        comeco_extrato_menu()
-        print(f"Nada Efetuado\n\nSaldo: {saldo:.2f}")
-        final_extrato_menu()
-    else:
-        comeco_extrato_menu()
-        print(f"{extrato}\nSaldo: {saldo:.2f}")
-        final_extrato_menu()
 
-def deposito():
-    global saldo, extrato, exibir_extrato, transacoes
-    deposito = float(input("insira o Valor do Deposito: "))
+    comeco_extrato_menu()
+    print(f"Nada Efetuado\n\nSaldo: {saldo:.2f}") if extrato == "" else print(f"{extrato}\nSaldo: {saldo:.2f}")
+    final_extrato_menu()
+
+def deposito(valor: float):
+    global saldo, extrato, transacoes
     
-    if deposito > 0 and limite_de_transacoes() == False:
-        saldo += deposito
-        print(f"Deposito de {deposito:.2f} efetuado com sucesso!")
-        extrato += f"Depósito: R${deposito:.2f}     Data: {datetime.now(pytz.timezone("America/Sao_Paulo")).strftime(mascara_ptbr)}\n"
+    if valor > 0 and limite_de_transacoes() == False:
+        saldo += valor
+        print(f"Deposito de {valor:.2f} efetuado com sucesso!")
+        extrato += f"Depósito: R${valor:.2f}    Data: {datetime.now(pytz.timezone("America/Sao_Paulo")).strftime(mascara_ptbr)}\n"
         transacoes += 1
     elif limite_de_transacoes() == True:
         print("Voce excedeu o limite de Transaçôes Diarias")
     else:
         print("A operação Falhou!")
 
-def saque():
-    global limite_saque_diario, SAQUE_DIARIO, saques, saldo, extrato, exibir_extrato, transacoes
+def saque(valor: float):
+    global limite_saque_diario, SAQUE_DIARIO, saques, saldo, extrato, transacoes
     
-    saque = float(input("insira o Valor do Saque: "))
-
     limite_de_saques_maximos = saques != SAQUE_DIARIO
-    valor_positivo = saque > 0
-    valor_maximo_de_saque = saque <= limite_saque_diario
+    valor_positivo = valor > 0
+    valor_maximo_de_saque = valor <= limite_saque_diario
 
     if valor_positivo and valor_maximo_de_saque and limite_de_saques_maximos and limite_de_transacoes() == False:
-        if saque <= saldo:
-            saldo -= saque
-            print(f"Seu Saque de {saque:.2f} foi realizado com sucesso!")
+        if valor <= saldo:
+            saldo -= valor
+            print(f"Seu Saque de {valor:.2f} foi realizado com sucesso!")
             saques += 1
-            extrato += f"Saque: R${saque:.2f}     Data: {datetime.now(pytz.timezone("America/Sao_Paulo")).strftime(mascara_ptbr)}\n"
+            extrato += f"Saque: R${valor:.2f}     Data: {datetime.now(pytz.timezone("America/Sao_Paulo")).strftime(mascara_ptbr)}\n"
             transacoes += 1
-        elif saque > saldo:
-            print(f"Seu Saque de {saque:.2f} é maior que o seu Saldo {saldo:.2f}")
+        elif valor > saldo:
+            print(f"Seu Saque de {valor:.2f} é maior que o seu Saldo {saldo:.2f}")
     elif valor_maximo_de_saque == False and limite_de_saques_maximos:
-        print(f"O valor de Saque {saque:.2f} é maior que o Limite Diario {limite_saque_diario:.2f}")
+        print(f"O valor de Saque {valor:.2f} é maior que o Limite Diario {limite_saque_diario:.2f}")
     elif limite_de_saques_maximos == False:
         print("Voce excedeu o seu limite de Saques diarios")
     elif limite_de_transacoes() == True:
@@ -83,9 +74,9 @@ def saque():
 while True:
     opcao = input(menu).upper()
     if opcao == "D":
-        deposito()
+        deposito(float(input("insira o Valor do Deposito: ")))
     elif opcao == "S":
-        saque()
+        saque(float(input("insira o Valor do Saque: ")))
     elif opcao == "E":
         menu_extrato()
         print(input("aperte [ENTER] para voltar ao menu"))
