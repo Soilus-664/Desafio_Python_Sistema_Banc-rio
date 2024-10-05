@@ -12,9 +12,12 @@ extrato = ""
 
 mascara_ptbr = "%d/%m/%Y %H:%M:%S"
 
+usuario = dict.fromkeys(["nome","data-de-nascimento","cpf","endereco"])
+
 menu = """
     [D] Deposito
     [S] Saque
+    [C] Criar Usuário
     [E] Extrato
     [Q] Sair
 
@@ -29,6 +32,8 @@ def menu_extrato():
     def final_extrato_menu():
         print("".center(50, "="))
 
+    final_extrato_menu() if usuario.get("nome") != None else ""
+    print("Nome: {nome} CPF: {cpf}".format(**usuario)) if usuario.get("nome") != None else ""
     comeco_extrato_menu()
     print(f"Nada Efetuado\n\nSaldo: {saldo:.2f}") if extrato == "" else print(f"{extrato}\nSaldo: {saldo:.2f}")
     final_extrato_menu()
@@ -71,17 +76,27 @@ def saque(valor: float):
     else:
         print("A operação Falhou!")
 
+def criar_usuario():    
+    global usuario
+
+    usuario["nome"] = input("Digite o nome: ")
+    usuario["data-de-nascimento"] = str(input("Digite sua data de nascimento: "))
+    usuario["cpf"] = input("Digite o cpf: ")
+    usuario["endereco"] = input("Digite o endereço: ")
+
+
 while True:
     opcao = input(menu).upper()
     if opcao == "D":
         deposito(float(input("insira o Valor do Deposito: ")))
     elif opcao == "S":
         saque(float(input("insira o Valor do Saque: ")))
+    elif opcao == "C":
+        criar_usuario()
     elif opcao == "E":
         menu_extrato()
         print(input("aperte [ENTER] para voltar ao menu"))
     elif opcao == "Q":
         break
-
     else:
         print("Opção Invalida, por favor selecione novamente uma opção valida! ")
