@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-import pytz, textwrap
+import pytz
 
 def menu():
     def começo_menu():
