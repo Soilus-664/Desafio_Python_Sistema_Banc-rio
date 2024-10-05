@@ -89,7 +89,7 @@ def listar_contas(contas):
         print("=" * 50)
 
 def main():
-    SAQUE_DIARIO = 3
+    SAQUE_DIARIO = 4
     LIMITE_TRANSACOES = 10
     AGENCIA = "0001"
 
@@ -101,10 +101,10 @@ def main():
     usuarios = []
     contas = []
     
-    mascara_ptbr = "%d/%m/%Y %H:%M:%S"
+    mascara_ptbr = "%d/%m/%Y  %H:%M:%S"
  
     while True:
-        opcao = input(f"=> {menu()}").upper()
+        opcao = input(f"=> {menu()}").upper() #Não consegui tirar o none
 
         if opcao == "D":
             if transacoes != LIMITE_TRANSACOES:
